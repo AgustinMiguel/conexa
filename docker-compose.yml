@@ -14,7 +14,7 @@ services:
 
   app:
     build: .
-    command: npm run start:dev
+    command: sh -c "npm run migrate && npm run seed && npm run start:dev"
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
