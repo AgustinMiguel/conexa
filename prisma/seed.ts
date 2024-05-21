@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client';
-import { seedFilms } from './seedFilms';
-import { seedUsers } from './seedUsers';
+import { PrismaClient } from "@prisma/client";
+import { seedFilms } from "./seedFilms";
+import { seedUsers } from "./seedUsers";
 
 const prisma = new PrismaClient();
 
@@ -8,7 +8,7 @@ async function main() {
   await seedUsers();
   await seedFilms();
 
-  console.log('Seeding completed.');
+  console.log("Seeding completed.");
 }
 
 main()

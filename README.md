@@ -2,12 +2,6 @@
 
 Conexa challenge
 
-## Running the app
-
-```bash
-$ docker-compose up
-```
-
 ## Running the app locally
 
 ```bash
@@ -21,6 +15,14 @@ $ npm run seed
 
 $ npm run start
 
+```
+
+## Running the app
+
+I was not able of run the seed command with into the container. So, the app will start but with out data.
+
+```bash
+$ docker-compose up -d
 ```
 
 ## Test

@@ -3,6 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:13
+    container_name: conexa-postgres
     ports:
       - '5432:5432'
     environment:
@@ -14,14 +15,21 @@ services:
 
   app:
     build: .
-    command: sh -c "npm run migrate && npm run seed && npm run start:dev"
+    container_name: conexa-app
+    working_dir: /app
+    command: sh -c "/wait && npm run generate && npm run migrate:deploy && npm run start:prod"
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - .:/app
+      - /app/node_modules
     ports:
       - '3000:3000'
     environment:
       DATABASE_URL: postgresql://user:secretpassword@postgres:5432/conexa
+      JWT_SECRET: your_jwt_secret
+      SESSION_SECRET: your_session_secret
+      PORT: 3000
+      BASE_URL: http://localhost:3000
+      WAIT_HOSTS: postgres:5432
     depends_on:
       - postgres
 
