@@ -1,25 +1,25 @@
 import { Type } from "class-transformer";
-import { IsArray, IsDate, IsString } from "class-validator";
-import { CreateCharacterDto } from "./create-character.dto";
+import { IsDate, IsOptional, IsString } from "class-validator";
 
-export class CreateFilmDto {
+export class UpdateFilmDto {
   @IsString()
+  @IsOptional()
   title: string;
 
   @IsString()
+  @IsOptional()
   opening_crawl: string;
 
   @IsString()
+  @IsOptional()
   director: string;
 
   @IsString()
+  @IsOptional()
   producer: string;
 
   @IsDate()
   @Type(() => Date)
+  @IsOptional()
   release_date: Date;
-
-  @IsArray()
-  @Type(() => CreateCharacterDto)
-  characters: CreateCharacterDto[];
 }

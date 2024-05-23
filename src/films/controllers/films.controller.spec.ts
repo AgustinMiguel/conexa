@@ -1,12 +1,12 @@
 import { ExecutionContext, ForbiddenException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Test, TestingModule } from "@nestjs/testing";
+import { FilmsController } from ".";
 import { JwtAuthGuard, RolesGuard } from "../../auth/guards";
 import { PaginationDto } from "../../common/dtos";
 import { CreateFilmDto, FilmDto } from "../dtos";
 import { PaginatedFilmsDto } from "../dtos/paginated-film.dto";
-import { FilmsService } from "../services/films.service";
-import { FilmsController } from "./films.controller";
+import { FilmsService } from "../services";
 
 const mockFilmsService = {
   create: jest.fn(),

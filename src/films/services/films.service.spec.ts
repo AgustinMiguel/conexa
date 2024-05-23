@@ -1,10 +1,10 @@
 import { NotFoundException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { plainToInstance } from "class-transformer";
+import { FilmsService } from ".";
 import { PaginationDto } from "../../common/dtos";
 import { PrismaService } from "../../common/prisma.service";
 import { CreateFilmDto, FilmDto } from "../dtos";
-import { FilmsService } from "./films.service";
 
 const mockPrismaService = {
   film: {

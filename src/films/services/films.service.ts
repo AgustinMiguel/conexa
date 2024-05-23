@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
-import { PaginationDto } from '../../common/dtos';
-import { PrismaService } from '../../common/prisma.service';
-import { CreateFilmDto, FilmDto } from '../dtos';
-import { PaginatedFilmsDto } from '../dtos/paginated-film.dto';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { plainToInstance } from "class-transformer";
+import { PaginationDto } from "../../common/dtos";
+import { PrismaService } from "../../common/prisma.service";
+import { CreateFilmDto, FilmDto, UpdateFilmDto } from "../dtos";
+import { PaginatedFilmsDto } from "../dtos/paginated-film.dto";
 
 @Injectable()
 export class FilmsService {
@@ -35,7 +35,7 @@ export class FilmsService {
                   },
                 },
               };
-            }),
+            })
           ),
         },
       },
@@ -66,6 +66,24 @@ export class FilmsService {
     });
 
     return filmDto;
+  }
+  async updateFilm(id: number, updateFilmDto: UpdateFilmDto): Promise<FilmDto> {
+    await this.prisma.film.findUniqueOrThrow({
+      where: { id },
+    });
+
+    const film = this.prisma.film.update({
+      where: {
+        id,
+      },
+      data: {
+        ...updateFilmDto,
+      },
+    });
+
+    return plainToInstance(FilmDto, {
+      ...film,
+    });
   }
 
   async getFilms(getFilmsDto: PaginationDto): Promise<PaginatedFilmsDto> {
@@ -123,6 +141,25 @@ export class FilmsService {
           name: fc.character.homeworld.name,
         },
       })),
+    });
+  }
+
+  async deleteFilm(id: number) {
+    return await this.prisma.$transaction(async (prisma) => {
+      const film = await prisma.film.findUniqueOrThrow({
+        where: { id },
+      });
+
+      await prisma.filmCharacter.deleteMany({
+        where: {
+          filmId: id,
+        },
+      });
+      await prisma.film.delete({
+        where: { id },
+      });
+
+      return `${film.title} was deleted!`;
     });
   }
 }
